@@ -18,50 +18,55 @@ import {
   Left,
   Body,
   List,
-  ListItem  
+  ListItem
 } from 'native-base';
 import Icon from 'react-native-vector-icons/Entypo';
 import styles from '../style/daftarmsds_style.js';
 import axios from 'axios';
 import { StackNavigator } from 'react-navigation';
 
-class DaftarMsds extends Component {  
-  
+class DaftarMsds extends Component {
+
+  // const { search } = this.props.navigation.state.params;
+
   constructor(props) {
     super(props);
 
     this.state = {
       isLoading: true,
-      msdsarray : []
-    }    
+      msdsarray : [],
+      search : this.props.navigation.state.params.search
+    }
   }
 
   componentDidMount() {
     axios({
       method: 'get',
-      url: 'http://edokaton.tk/api/msds',      
+      url: 'http://edokaton.tk/api/msds/' + this.state.search,
       headers: {
         'Accept'        : 'application/json',
         'Authorization' : 'Bearer qDcJtmiSugMC6lplhWJT8a0t8Q3PteWUXKBaMe5iuTtlBHIrHL8cq7Rr4Tiz7httGO5dspblNAqSR7NW1dCVqwcriyKGxerzRR39'
       }
     })
-      .then((response) => {
-          this.setState({
-              isLoading: false,
-              msdsarray: response.data.msds
-          });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
+    .then((response) => {
+        this.setState({
+          isLoading: false,
+          msdsarray: response.data.msds
+        });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }
 
   componentWillUnmount() {
-      this.unmounted = true;
+    this.unmounted = true;
   }
 
   render() {
+    const { navigate, goBack } = this.props.navigation;
+    // const { search } = this.props.navigation.state.params;
+
     if (this.state.isLoading) {
       return (
         <View style={{flex: 1, paddingTop: 20}}>
@@ -69,8 +74,6 @@ class DaftarMsds extends Component {
         </View>
       );
     }
-
-    const { navigate, goBack } = this.props.navigation;
 
     return (
       <Container>
@@ -83,7 +86,7 @@ class DaftarMsds extends Component {
             </TouchableHighlight>
           </Left>
           <Body>
-            <Title>Daftar Zat Kimia</Title>
+            <Title>Search Zat Kimia</Title>
           </Body>
         </Header>
         <Content>

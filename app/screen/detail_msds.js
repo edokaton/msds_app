@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView
+  ScrollView,
+  TouchableHighlight
 } from 'react-native';
 import {
   Container,
@@ -14,8 +15,7 @@ import {
   Button,
   Left,
   Right,
-  Body,
-  Icon,
+  Body,  
   Item,
   Label,
   InputGroup,
@@ -24,20 +24,24 @@ import {
   Col,
   H1
 } from 'native-base';
+import Icon from 'react-native-vector-icons/Entypo';
 import styles from '../style/detail_msds_style.js';
 
 export default class DetailMsds extends Component {
   render() {
 
+    const { goBack } = this.props.navigation;
     const { id, nama, content} = this.props.navigation.state.params;
 
     return (
       <Container>
         <Header style={{backgroundColor: '#009688'}}>
           <Left>
-            <View transparent>
-              <Icon name='menu' />
-            </View>
+            <TouchableHighlight onPress={() => goBack()}>
+              <View transparent>
+                <Icon name='chevron-left' size={30} />
+              </View>
+            </TouchableHighlight>
           </Left>
           <Body>
             <Title>Data Zat</Title>

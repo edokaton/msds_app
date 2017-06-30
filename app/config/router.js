@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 
 import Home from '../screen/home.js';
 import MsdsList from '../screen/daftar_msds.js';
+import SearchMsds from '../screen/search.js';
 import CompareMsds from '../screen/compare_msds.js';
 import DetailMsds from '../screen/detail_msds.js';
 // import Feed from '../screen/feed.js';
@@ -12,16 +13,19 @@ import DetailMsds from '../screen/detail_msds.js';
 // import Me from '../screen/Me.js';
 
 export const MainPage = StackNavigator({
-  Home: {
+  HomeScreen: {
     screen: Home
   },
-  MsdsList: {
+  MsdsListScreen: {
     screen: MsdsList
   },
-  CompareMsds: {
+  SearchScreen: {
+    screen: SearchMsds
+  },
+  CompareMsdsScreen: {
     screen: CompareMsds
   },
-  DetailMsds: {
+  DetailMsdsScreen: {
     screen: DetailMsds
   }
 }, {

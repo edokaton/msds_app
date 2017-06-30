@@ -32,17 +32,27 @@ import { StackNavigator } from 'react-navigation';
 
 
 class MSDS extends Component {
-  // static navigationOptions = {
-  //   title: 'MSDS',
-  // };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      text : '',
+    }
+
+    // this.changeSearch = this.changeSearch.bind(this);
+  }
+  
+  // changeSearch(event) {
+  //   this.setState({search: event.target.value});
+  // }
+
   render() {
     const { navigate } = this.props.navigation;
+    var search = this.state.text;
+    var firstsearch = "";
+    var secondsearch = "";
 
-    openDrawerTrigger = () => {
-      this.refs['mainDrawer'].openDrawer()
-    }    
-
-    return (      
+    return (
         <Container>
           <Header style={{backgroundColor: '#009688'}}>
             <Left>
@@ -73,13 +83,13 @@ class MSDS extends Component {
                       }
                     }>
                       <Icon active name='search' />
-                      <Input placeholder='Cari Zat Kimia'/>
+                      <Input placeholder='Cari Zat Kimia' onChangeText={(text) => this.setState({text})} />
                     </Item>
 
                     <View>
                       <Button
                         transparent
-                        onPress={() => navigate('MsdsList')}
+                        onPress={() => navigate('SearchScreen', { search })}
                         style={
                           {
                             backgroundColor:'#009688',
@@ -98,40 +108,44 @@ class MSDS extends Component {
                 <Content>
                   <Grid>
                     <Col style={{paddingLeft: 10, paddingRight: 5}}>
-                      <View style={styles.homeMenuWrapper}>
-                        <View style={styles.menuInnerWrapper}>
-                          <Image
-                            style={styles.btnImage}
-                            source={require('../img/list.png')}
-                          />
-                          <Button
-                            transparent
-                            block
-                            onPress={() => navigate('MsdsList')}
-                            style={{backgroundColor:'#009688'}}
-                          >
-                            <Text style={{color:'#ffffff'}}>Daftar Zat Kimia</Text>
-                          </Button>
+                      <TouchableHighlight onPress={() => navigate('MsdsListScreen')}>
+                        <View style={styles.homeMenuWrapper}>
+                          <View style={styles.menuInnerWrapper}>
+                            <Image
+                              style={styles.btnImage}
+                              source={require('../img/list.png')}
+                            />
+                            <Button
+                              transparent
+                              block
+                              onPress={() => navigate('MsdsListScreen')}
+                              style={{backgroundColor:'#009688'}}
+                            >
+                              <Text style={{color:'#ffffff'}}>Daftar Zat Kimia</Text>
+                            </Button>
+                          </View>
                         </View>
-                      </View>
+                      </TouchableHighlight>
                     </Col>
                     <Col style={{paddingLeft: 5, paddingRight: 10}}>
-                      <View style={styles.homeMenuWrapper}>
-                        <View style={styles.menuInnerWrapper}>
-                          <Image
-                            style={styles.btnImage}
-                            source={require('../img/compare.png')}
-                          />
-                          <Button
-                            transparent
-                            block
-                            onPress={() => navigate('CompareMsds')}
-                            style={{backgroundColor:'#009688'}}
-                          >
-                            <Text style={{color:'#ffffff', fontSize: 14}}>Bandingkan MSDS</Text>
-                          </Button>
+                      <TouchableHighlight onPress={() => navigate('CompareMsdsScreen', { firstsearch, secondsearch})}>
+                        <View style={styles.homeMenuWrapper}>
+                          <View style={styles.menuInnerWrapper}>
+                            <Image
+                              style={styles.btnImage}
+                              source={require('../img/compare.png')}
+                            />
+                            <Button
+                              transparent
+                              block
+                              onPress={() => navigate('CompareMsdsScreen', { firstsearch, secondsearch})}
+                              style={{backgroundColor:'#009688'}}
+                            >
+                              <Text style={{color:'#ffffff', fontSize: 14}}>Bandingkan MSDS</Text>
+                            </Button>
+                          </View>
                         </View>
-                      </View>
+                      </TouchableHighlight>
                     </Col>
                   </Grid>
                 </Content>
@@ -139,7 +153,7 @@ class MSDS extends Component {
 
             </View>
           </Content>
-        </Container>      
+        </Container>
     );
   }
 }
