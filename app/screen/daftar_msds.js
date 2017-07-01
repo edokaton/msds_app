@@ -88,16 +88,16 @@ class DaftarMsds extends Component {
         </Header>
         <Content>
           <List>
-            <ListItem itemDivider>
+            {/*<ListItem itemDivider>
               <Text>A</Text>
-            </ListItem>
+            </ListItem>*/}
             {this.state.msdsarray.map((msds, key) => {
                return (
                   <ListItem
                     key={key}
                     onPress={() => navigate('DetailMsdsScreen', { ...msds })}
                   >
-                    <Text>{msds.nama}</Text>
+                    <Text>{msds.nama}</Text>                    
                   </ListItem>
                 )
             })}

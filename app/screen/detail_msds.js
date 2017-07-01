@@ -15,7 +15,7 @@ import {
   Button,
   Left,
   Right,
-  Body,  
+  Body,
   Item,
   Label,
   InputGroup,
@@ -28,10 +28,21 @@ import Icon from 'react-native-vector-icons/Entypo';
 import styles from '../style/detail_msds_style.js';
 
 export default class DetailMsds extends Component {
+  // constructor(props) {
+  //   super(props);
+
+  //   this.state = {      
+  //     konten : {}
+  //   }
+  // }
+
   render() {
 
     const { goBack } = this.props.navigation;
     const { id, nama, content} = this.props.navigation.state.params;
+    // this.setState({
+    //   konten : JSON.parse(content)
+    // });
 
     return (
       <Container>
@@ -100,7 +111,7 @@ export default class DetailMsds extends Component {
             <View style={styles.msds_title}>
               <H1 style={{textAlign: 'center'}}>{nama}</H1>
             </View>
-
+            
             <View style={styles.msds_desc}>
               <Text style={{textAlign: 'justify'}}>{content}</Text>
             </View>

@@ -91,9 +91,9 @@ class DaftarMsds extends Component {
         </Header>
         <Content>
           <List>
-            <ListItem itemDivider>
+            {/*<ListItem itemDivider>
               <Text>A</Text>
-            </ListItem>
+            </ListItem>*/}
             {this.state.msdsarray.map((msds, key) => {
                return (
                   <ListItem
