@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView
+  ScrollView,
+  TouchableHighlight
 } from 'react-native';
 import {
   Container,
@@ -16,18 +17,19 @@ import {
   Left,
   Right,
   Body,
-  Icon,
   Item,
   Label,
   InputGroup,
   Input,
   Grid,
   Col,
-  H1
+  H3
 } from 'native-base';
 import axios from 'axios';
+import Icon from 'react-native-vector-icons/Entypo';
+import Icons from 'react-native-vector-icons/EvilIcons';
 import styles from '../style/compare_style.js';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, NavigationActions } from 'react-navigation';
 
 export default class CompareMsds extends Component {
 
@@ -36,8 +38,10 @@ export default class CompareMsds extends Component {
 
     this.state = {
       isLoading: true,
-      msdsarray : [],
-      msdsarraytwo : [],
+      left_name : [],
+      left_content : [],
+      right_name : [],
+      right_content : [],
       firstinput : this.props.navigation.state.params.firstsearch,
       secondinput : this.props.navigation.state.params.secondsearch,
     }
@@ -55,8 +59,10 @@ export default class CompareMsds extends Component {
     .then((response) => {
         this.setState({
           isLoading: false,
-          msdsarray: response.data.msds,
-          msdsarraytwo: response.data.msdstwo
+          left_name: response.data.msds_name,
+          left_content: ( response.data.msds_content !== null && typeof response.data.msds_content === 'object' ? response.data.msds_content : JSON.parse(response.data.msds_content)),
+          right_name: response.data.msdstwo_name,
+          right_content: ( response.data.msdstwo_content !== null && typeof response.data.msdstwo_content === 'object' ? response.data.msdstwo_content : JSON.parse(response.data.msdstwo_content))
         });
     })
     .catch((error) => {
@@ -71,6 +77,13 @@ export default class CompareMsds extends Component {
   render() {
     const { navigate, goBack } = this.props.navigation;
 
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'HomeScreen'})
+      ]
+    })
+
     if (this.state.isLoading) {
       return (
         <View style={{flex: 1, paddingTop: 20}}>
@@ -79,16 +92,44 @@ export default class CompareMsds extends Component {
       );
     }
 
-    var firstsearch = this.state.firstinput;
+    var firstsearch = (this.state.firstinput == '' ? 'asdf' : this.state.firstinput);
     var secondsearch = this.state.secondinput;
+
+    var left_side = [
+      <View>
+        <View style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Deskripsi singkat Zat Kimia</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_1}</Text>
+        </View>
+        <View style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Nama Zat Kimia</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_2}</Text>
+        </View>
+      </View>
+    ];
+
+    var right_side = [
+      <View>
+        <View style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Deskripsi singkat Zat Kimia</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.right_content.konten_1}</Text>
+        </View>
+        <View style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Nama Zat Kimia</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.right_content.konten_2}</Text>
+        </View>
+      </View>
+    ]
 
     return (
       <Container>
         <Header style={{backgroundColor: '#009688'}}>
           <Left>
-            <View transparent>
-              <Icon name='menu' />
-            </View>
+            <TouchableHighlight onPress={() => this.props.navigation.dispatch(resetAction)}>
+              <View transparent>
+                <Icon name='chevron-left' size={30} />
+              </View>
+            </TouchableHighlight>
           </Left>
           <Body>
             <Title>Bandingkan Zat Kimia</Title>
@@ -105,15 +146,15 @@ export default class CompareMsds extends Component {
                   marginTop: 20,
                   marginLeft: 5,
                   marginRight: 5,
-                  marginBottom: 30,
+                  marginBottom: 10,
                   borderRadius: 5
                 }
               }>
-                      <Icon active name='search' />
+                      <Icons active name='search' size={30} />
                       <Input placeholder='Cari Zat Kimia' onChangeText={(firstinput) => this.setState({firstinput})} />
               </Item>
 
-              <View>
+              <View style={styles.compareBtnWrapper}>
                 <Button
                   transparent
                   onPress={() => navigate('CompareMsdsScreen', { firstsearch, secondsearch })}
@@ -121,7 +162,7 @@ export default class CompareMsds extends Component {
                     {
                       backgroundColor:'#009688',
                       borderRadius: 5,
-                      width: 150
+                      width: 110
                     }
                   }
                 >
@@ -132,13 +173,11 @@ export default class CompareMsds extends Component {
               <ScrollView>
                   <View>
                     <View style={styles.msds_title}>
-                      <H1 style={{textAlign: 'center'}}>{this.state.msdsarray.nama}</H1>
+                      <H3 style={{textAlign: 'center'}}>{this.state.left_name}</H3>
                     </View>
 
-                    <View style={styles.msds_desc}>
-                      <Text style={{textAlign: 'justify'}}>{this.state.msdsarray.content}</Text>
-                    </View>
-                  </View>                  
+                    { this.state.left_content.konten_1 !== '' ? left_side : <Text></Text> }
+                  </View>
               </ScrollView>
 
             </Col>
@@ -151,15 +190,15 @@ export default class CompareMsds extends Component {
                   marginTop: 20,
                   marginLeft: 5,
                   marginRight: 5,
-                  marginBottom: 30,
+                  marginBottom: 10,
                   borderRadius: 5
                 }
               }>
-                      <Icon active name='search' />
+                      <Icons active name='search' size={30} />
                       <Input placeholder='Cari Zat Kimia' onChangeText={(secondinput) => this.setState({secondinput})} />
               </Item>
 
-              <View>
+              <View style={styles.compareBtnWrapper}>
                 <Button
                   transparent
                   onPress={() => navigate('CompareMsdsScreen', { firstsearch, secondsearch })}
@@ -167,7 +206,7 @@ export default class CompareMsds extends Component {
                     {
                       backgroundColor:'#009688',
                       borderRadius: 5,
-                      width: 150
+                      width: 110
                     }
                   }
                 >
@@ -175,16 +214,14 @@ export default class CompareMsds extends Component {
                 </Button>
               </View>
 
-              <ScrollView>              
+              <ScrollView>
                   <View>
                     <View style={styles.msds_title}>
-                      <H1 style={{textAlign: 'center'}}>{this.state.msdsarraytwo.nama}</H1>
+                      <H3 style={{textAlign: 'center'}}>{this.state.right_name}</H3>
                     </View>
 
-                    <View style={styles.msds_desc}>
-                      <Text style={{textAlign: 'justify'}}>{this.state.msdsarraytwo.content}</Text>
-                    </View>
-                  </View>                
+                    { this.state.right_content.konten_1 !== '' ? right_side : <Text></Text> }
+                  </View>
               </ScrollView>
 
             </Col>

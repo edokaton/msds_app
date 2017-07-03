@@ -5,7 +5,8 @@ import {
   Text,
   View,
   ScrollView,
-  TouchableHighlight
+  TouchableHighlight,
+  ActivityIndicator
 } from 'react-native';
 import {
   Container,
@@ -25,24 +26,57 @@ import {
   H1
 } from 'native-base';
 import Icon from 'react-native-vector-icons/Entypo';
+import axios from 'axios';
 import styles from '../style/detail_msds_style.js';
 
 export default class DetailMsds extends Component {
-  // constructor(props) {
-  //   super(props);
+  constructor(props){
+    super(props);
 
-  //   this.state = {      
-  //     konten : {}
-  //   }
-  // }
+    this.state = {
+      isLoading: true,
+      konten : [],
+      zat : this.props.navigation.state.params.nama
+    }
+  }
+
+  componentDidMount() {
+    axios({
+      method: 'get',
+      url: 'http://edokaton.tk/api/detail/' + this.state.zat,
+      headers: {
+        'Accept'        : 'application/json',
+        'Authorization' : 'Bearer qDcJtmiSugMC6lplhWJT8a0t8Q3PteWUXKBaMe5iuTtlBHIrHL8cq7Rr4Tiz7httGO5dspblNAqSR7NW1dCVqwcriyKGxerzRR39'
+      }
+    })
+    .then((response) => {
+      this.setState({
+        isLoading: false,
+        konten : JSON.parse(response.data.msds)
+      })
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
+  componentWillUnmount() {
+    this.unmounted = true;
+  }
 
   render() {
-
+    /*{ console.log(this.state.konten); }*/
     const { goBack } = this.props.navigation;
     const { id, nama, content} = this.props.navigation.state.params;
-    // this.setState({
-    //   konten : JSON.parse(content)
-    // });
+    console.log(this.state.konten);
+
+    if (this.state.isLoading) {
+      return (
+        <View style={{flex: 1, paddingTop: 20}}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
 
     return (
       <Container>
@@ -111,9 +145,104 @@ export default class DetailMsds extends Component {
             <View style={styles.msds_title}>
               <H1 style={{textAlign: 'center'}}>{nama}</H1>
             </View>
-            
+
             <View style={styles.msds_desc}>
-              <Text style={{textAlign: 'justify'}}>{content}</Text>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
+                <View>
+                  <Text>Nama Zat Kimia</Text>
+                  <Text style={{textAlign: 'justify'}}>
+                    { this.state.konten.konten_1 }
+                  </Text>
+                </View>
             </View>
           </ScrollView>
         </Content>
