@@ -3,10 +3,12 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
+  TextInput,
   View,
   ScrollView,
   TouchableHighlight,
-  ActivityIndicator
+  ActivityIndicator,
+  Modal
 } from 'react-native';
 import {
   Container,
@@ -26,6 +28,7 @@ import {
   H1
 } from 'native-base';
 import Icon from 'react-native-vector-icons/Entypo';
+import FaIcon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import styles from '../style/detail_msds_style.js';
 
@@ -36,6 +39,8 @@ export default class DetailMsds extends Component {
     this.state = {
       isLoading: true,
       konten : [],
+      modalVisible: false,
+      text: 'Tulis report mengenai zat',
       zat : this.props.navigation.state.params.nama
     }
   }
@@ -64,6 +69,10 @@ export default class DetailMsds extends Component {
     this.unmounted = true;
   }
 
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
   render() {
     /*{ console.log(this.state.konten); }*/
     const { goBack } = this.props.navigation;
@@ -77,6 +86,63 @@ export default class DetailMsds extends Component {
         </View>
       );
     }
+
+    var reportModal = [
+        <Modal
+          animationType={"slide"}
+          transparent={false}
+          visible={this.state.modalVisible}
+          style={styles.reportModalWrapper}
+          onRequestClose={() => {
+            alert("Modal has been closed")
+          }}
+          key={1}
+          >
+           <View style={{marginTop: 22}}>
+              <TouchableHighlight
+                onPress={() => {
+                  this.setModalVisible(!this.state.modalVisible)
+                }}
+                style={styles.modalCloseBtn}
+              >
+                <FaIcon name='close' size={30} />
+              </TouchableHighlight>
+              <View>
+                <Text>Kirim Report Kesalahan Data</Text>
+
+                <Item regular>
+                  <Input placeholder='Subjek report/laporan' />
+                </Item>
+
+                <TextInput
+                  multiline = {true}
+                  numberOfLines = {6}
+                  style={{height: 100, borderColor: 'gray', borderWidth: 1}}
+                  onChangeText={(text) => this.setState({text})}
+                  value={this.state.text}
+                />
+
+                <Button
+                  transparent
+                  style={
+                    {
+                      backgroundColor:'#009688',
+                      borderRadius: 5,
+                      marginLeft: 5,
+                      marginRight: 5,
+                      width: '28%'
+                    }
+                  }
+                  onPress={() => {
+                    
+                  }}
+                >
+                  <Text style={{color:'#fff', textAlign: 'center', width: '100%'}}>Kirim</Text>
+                </Button>
+              </View>
+           </View>
+        </Modal>
+    ]
 
     return (
       <Container>
@@ -92,6 +158,7 @@ export default class DetailMsds extends Component {
             <Title>Data Zat</Title>
           </Body>
         </Header>
+        { reportModal }
         <Content>
           {/* <Text>halaman detail</Text> */}
           <ScrollView>
@@ -111,20 +178,23 @@ export default class DetailMsds extends Component {
                 <Text style={{color:'#fff', textAlign: 'center', width: '100%'}}>Share</Text>
               </Button>
 
-              <Button
-                transparent
-                style={
-                  {
-                    backgroundColor:'#009688',
-                    borderRadius: 5,
-                    marginLeft: 5,
-                    marginRight: 5,
-                    width: '28%'
+                <Button
+                  transparent
+                  style={
+                    {
+                      backgroundColor:'#009688',
+                      borderRadius: 5,
+                      marginLeft: 5,
+                      marginRight: 5,
+                      width: '28%'
+                    }
                   }
-                }
-              >
-                <Text style={{color:'#fff', textAlign: 'center', width: '100%'}}>Report</Text>
-              </Button>
+                  onPress={() => {
+                    this.setModalVisible(true)
+                  }}
+                >
+                  <Text style={{color:'#fff', textAlign: 'center', width: '100%'}}>Report</Text>
+                </Button>
 
               <Button
                 transparent
@@ -143,104 +213,105 @@ export default class DetailMsds extends Component {
             </View>
 
             <View style={styles.msds_title}>
+              <H1 style={{textAlign: 'center'}}>Material Safety Data Sheet</H1>
               <H1 style={{textAlign: 'center'}}>{nama}</H1>
             </View>
 
             <View style={styles.msds_desc}>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Deskripsi singkat zat kimia</Text>
                   <Text style={{textAlign: 'justify'}}>
                     { this.state.konten.konten_1 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Bahan dan komposisi zat kimia</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_2 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Bahaya/risiko zat Kimia</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_3 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Tindakan pertolongan pertama</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_4 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Data ledakan dan api</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_5 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Langkah-langkah jika tumpah</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_6 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Perawatan dan penyimpanan</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_7 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Perlindungan diri</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_8 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Unsur kimia dan fisika</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_9 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Data reaktivitas dan stabilitas</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_10 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Informasi racun</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_11 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Informasi ekologis</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_12 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Penanganan limbah</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_13 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Informasi transportasi/pengangkutan</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_14 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Informasi tambahan</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_15 }
                   </Text>
                 </View>
-                <View>
-                  <Text>Nama Zat Kimia</Text>
+                <View style={styles.each_description}>
+                  <Text style={styles.desc_title}>Informasi lain</Text>
                   <Text style={{textAlign: 'justify'}}>
-                    { this.state.konten.konten_1 }
+                    { this.state.konten.konten_16 }
                   </Text>
                 </View>
             </View>

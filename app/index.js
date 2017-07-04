@@ -15,11 +15,15 @@ class App extends Component {
     }
 
   	var MainDrawer = (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
-        <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer!</Text>
+      <View style={{flex: 1, backgroundColor: '#009688'}}>
+        <Text style={{marginTop: 50, marginBottom: 50, fontSize: 60, fontWeight: 'bold', textAlign: 'center', color: '#fff'}}>MSDS</Text>
+
+        <View style={{backgroundColor: '#fff', width: '100%', height: '100%'}}>
+          
+        </View>
       </View>
     );
-    // return <Root />;
+    
     return(
 	    <DrawerLayoutAndroid
 			drawerWidth={300}

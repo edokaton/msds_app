@@ -4,11 +4,14 @@ import {
 } from 'react-native';
 
 const styles = StyleSheet.create({
-	// compareBtnWrapper : {
-	// 	flex:1,
-	//     flexDirection:'row',
-	//     alignItems:'center',
-	//     justifyContent:'center'
+	compareBtnWrapper : {
+		// flex:1,
+	 //    flexDirection:'row',
+	 //    justifyContent:'center',
+	 //    height: 20
+	},
+	// contentWrapper: {
+	// 	minHeight: 500
 	// },
 	msds_title: {
 		marginTop: 30,
@@ -17,7 +20,7 @@ const styles = StyleSheet.create({
 		marginBottom: 20
 	},
 	msds_desc: {
-		margin: 5		
+		margin: 5
 	},
 	sub_judul: {
 		fontSize: 16,

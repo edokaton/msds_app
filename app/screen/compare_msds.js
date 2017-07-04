@@ -6,7 +6,8 @@ import {
   Text,
   View,
   ScrollView,
-  TouchableHighlight
+  TouchableHighlight,
+  Dimensions
 } from 'react-native';
 import {
   Container,
@@ -35,8 +36,10 @@ export default class CompareMsds extends Component {
 
   constructor(props){
     super(props);
-
+    const { width, height } = Dimensions.get('window')
     this.state = {
+      width,
+      height,
       isLoading: true,
       left_name : [],
       left_content : [],
@@ -74,6 +77,14 @@ export default class CompareMsds extends Component {
     this.unmounted = true;
   }
 
+  onLayout(){
+    const { width, height } = Dimensions.get('window')
+    this.setState({
+      width,
+      height
+    })
+  }
+
   render() {
     const { navigate, goBack } = this.props.navigation;
 
@@ -97,32 +108,144 @@ export default class CompareMsds extends Component {
 
     var left_side = [
       <View>
-        <View style={styles.msds_desc}>
-          <Text style={styles.sub_judul}>Deskripsi singkat Zat Kimia</Text>
+        <View key={1} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Deskripsi singkat zat kimia</Text>
           <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_1}</Text>
         </View>
-        <View style={styles.msds_desc}>
-          <Text style={styles.sub_judul}>Nama Zat Kimia</Text>
+        <View key={2} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Bahan dan komposisi zat kimia</Text>
           <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_2}</Text>
+        </View>
+        <View key={3} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Bahaya/risiko zat Kimia</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_3}</Text>
+        </View>
+        <View key={4} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Tindakan pertolongan pertama</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_4}</Text>
+        </View>
+        <View key={5} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Data ledakan dan api</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_5}</Text>
+        </View>
+        <View key={6} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Langkah-langkah jika tumpah</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_6}</Text>
+        </View>
+        <View key={7} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Perawatan dan penyimpanan</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_7}</Text>
+        </View>
+        <View key={8} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Perlindungan diri</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_8}</Text>
+        </View>
+        <View key={9} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Unsur kimia dan fisika</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_9}</Text>
+        </View>
+        <View key={10} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Data reaktivitas dan stabilitas</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_10}</Text>
+        </View>
+        <View key={11} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Informasi racun</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_11}</Text>
+        </View>
+        <View key={12} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Informasi ekologis</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_12}</Text>
+        </View>
+        <View key={13} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Penanganan limbah</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_13}</Text>
+        </View>
+        <View key={14} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Informasi transportasi/pengangkutan</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_14}</Text>
+        </View>
+        <View key={15} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Informasi tambahan</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_15}</Text>
+        </View>
+        <View key={16} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Informasi lain</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_16}</Text>
         </View>
       </View>
     ];
 
     var right_side = [
       <View>
-        <View style={styles.msds_desc}>
+        <View key={1} style={styles.msds_desc}>
           <Text style={styles.sub_judul}>Deskripsi singkat Zat Kimia</Text>
           <Text style={{textAlign: 'justify'}}>{this.state.right_content.konten_1}</Text>
         </View>
-        <View style={styles.msds_desc}>
-          <Text style={styles.sub_judul}>Nama Zat Kimia</Text>
+        <View key={2} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Bahan dan komposisi zat kimia</Text>
           <Text style={{textAlign: 'justify'}}>{this.state.right_content.konten_2}</Text>
+        </View>
+        <View key={3} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Bahaya/risiko zat kimia</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_3}</Text>
+        </View>
+        <View key={4} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Tindakan pertolongan pertama</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_4}</Text>
+        </View>
+        <View key={5} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Data ledakan dan api</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_5}</Text>
+        </View>
+        <View key={6} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Langkah-langkah jika tumpah</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_6}</Text>
+        </View>
+        <View key={7} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Perawatan dan penyimpanan</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_7}</Text>
+        </View>
+        <View key={8} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Perlindungan diri</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_8}</Text>
+        </View>
+        <View key={9} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Unsur kimia dan fisika</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_9}</Text>
+        </View>
+        <View key={10} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Data reaktivitas dan stabilitas</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_10}</Text>
+        </View>
+        <View key={11} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Informasi racun</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_11}</Text>
+        </View>
+        <View key={12} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Informasi ekologis</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_12}</Text>
+        </View>
+        <View key={13} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Penanganan limbah</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_13}</Text>
+        </View>
+        <View key={14} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Informasi transportasi dan pengangkutan</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_14}</Text>
+        </View>
+        <View key={15} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Informasi tambahan</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_15}</Text>
+        </View>
+        <View key={16} style={styles.msds_desc}>
+          <Text style={styles.sub_judul}>Informasi lain</Text>
+          <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_16}</Text>
         </View>
       </View>
     ]
 
     return (
-      <Container>
+      <Container onLayout={() => this.onLayout()}>
         <Header style={{backgroundColor: '#009688'}}>
           <Left>
             <TouchableHighlight onPress={() => this.props.navigation.dispatch(resetAction)}>
@@ -135,9 +258,14 @@ export default class CompareMsds extends Component {
             <Title>Bandingkan Zat Kimia</Title>
           </Body>
         </Header>
-        <Content style={{backgroundColor: '#00BFA5'}}>
+        <Content>
           <Grid>
-            <Col style={{borderRightWidth: 1, borderRightColor: '#009688', borderStyle: 'solid', height: '100%'}}>
+            <Col style={{
+              borderRightWidth: 1,
+              borderRightColor: '#009688',
+              borderStyle: 'solid',
+              height: '100%'
+            }}>
               <Item style={
                 {
                   backgroundColor: '#fff',
@@ -162,7 +290,8 @@ export default class CompareMsds extends Component {
                     {
                       backgroundColor:'#009688',
                       borderRadius: 5,
-                      width: 110
+                      width: 110,
+                      marginLeft: '20%'
                     }
                   }
                 >
@@ -171,7 +300,7 @@ export default class CompareMsds extends Component {
               </View>
 
               <ScrollView>
-                  <View>
+                  <View style={{minHeight: this.state.height}}>
                     <View style={styles.msds_title}>
                       <H3 style={{textAlign: 'center'}}>{this.state.left_name}</H3>
                     </View>
@@ -206,16 +335,21 @@ export default class CompareMsds extends Component {
                     {
                       backgroundColor:'#009688',
                       borderRadius: 5,
-                      width: 110
+                      width: 110,
+                      marginLeft: '20%'
                     }
                   }
                 >
-                  <Text style={{color:'#fff', textAlign: 'center', width: '100%'}}>Bandingkan</Text>
+                  <Text style={{
+                    color:'#fff',
+                    textAlign: 'center',
+                    width: '100%'
+                  }}>Bandingkan</Text>
                 </Button>
               </View>
 
               <ScrollView>
-                  <View>
+                  <View style={{minHeight: this.state.height}}>
                     <View style={styles.msds_title}>
                       <H3 style={{textAlign: 'center'}}>{this.state.right_name}</H3>
                     </View>

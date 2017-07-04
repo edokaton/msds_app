@@ -22,8 +22,26 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingBottom: 20
   },
+  each_description:{
+    marginTop: 10,
+    marginBottom: 10,
+    marginRight: 20,
+    marginLeft: 20
+  },
+  desc_title:{
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#009688',
+    borderStyle: 'solid',
+    marginBottom: 10
+  },
   msds_desc:{
-    padding: 10    
+    // padding: 10
+  },
+  reportModalWrapper: {
+    width: '200 !important'
   }
 });
 
