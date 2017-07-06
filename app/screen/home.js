@@ -37,9 +37,7 @@ class MSDS extends Component {
 
     this.state = {
       text : '',
-    }
-
-    // this.changeSearch = this.changeSearch.bind(this);
+    }    
   }
   
   // changeSearch(event) {

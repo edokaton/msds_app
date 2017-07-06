@@ -98,26 +98,32 @@ export default class DetailMsds extends Component {
           }}
           key={1}
           >
-           <View style={{marginTop: 22}}>
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible)
-                }}
-                style={styles.modalCloseBtn}
-              >
-                <FaIcon name='close' size={30} />
-              </TouchableHighlight>
-              <View>
-                <Text>Kirim Report Kesalahan Data</Text>
+           <View style={{marginLeft: 20, marginRight: 20, marginTop: 50}}>
+              <View style={{ flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+                <View style={{ marginRight: 50}}>
+                  <Text>Kirim Report Kesalahan Data</Text>
+                </View>
 
-                <Item regular>
+                <View>
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalVisible(!this.state.modalVisible)
+                    }}
+                    style={styles.modalCloseBtn}
+                  >
+                    <FaIcon name='close' size={30} />
+                  </TouchableHighlight>
+                </View>                
+              </View>
+              <View style={{ marginTop: 50 }}>
+                <Item regular style={{ marginBottom: 10}}>
                   <Input placeholder='Subjek report/laporan' />
                 </Item>
 
                 <TextInput
                   multiline = {true}
-                  numberOfLines = {6}
-                  style={{height: 100, borderColor: 'gray', borderWidth: 1}}
+                  numberOfLines = {10}
+                  style={{height: 200, borderColor: '#ccc', borderWidth: 1, marginBottom: 20}}
                   onChangeText={(text) => this.setState({text})}
                   value={this.state.text}
                 />
@@ -134,7 +140,7 @@ export default class DetailMsds extends Component {
                     }
                   }
                   onPress={() => {
-                    
+
                   }}
                 >
                   <Text style={{color:'#fff', textAlign: 'center', width: '100%'}}>Kirim</Text>

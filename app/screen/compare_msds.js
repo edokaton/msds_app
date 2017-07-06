@@ -242,7 +242,7 @@ export default class CompareMsds extends Component {
           <Text style={{textAlign: 'justify'}}>{this.state.left_content.konten_16}</Text>
         </View>
       </View>
-    ]
+    ];
 
     return (
       <Container onLayout={() => this.onLayout()}>

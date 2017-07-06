@@ -7,6 +7,8 @@ import MsdsList from '../screen/daftar_msds.js';
 import SearchMsds from '../screen/search.js';
 import CompareMsds from '../screen/compare_msds.js';
 import DetailMsds from '../screen/detail_msds.js';
+import Login from '../screen/login.js';
+import Register from '../screen/register.js';
 // import Feed from '../screen/feed.js';
 // import Settings from '../screen/Settings.js';
 // import UserDetail from '../screen/UserDetail.js';
@@ -27,6 +29,12 @@ export const MainPage = StackNavigator({
   },
   DetailMsdsScreen: {
     screen: DetailMsds
+  },
+  LoginScreen:{
+    screen: Login
+  },
+  RegisterScreen:{
+    screen: Register
   }
 }, {
   // mode: 'modal',
