@@ -72,7 +72,10 @@ export default class Login extends Component {
                     <Text style={{ color: '#fff' }}>Login</Text>
                   </Button>
 
-                  <TouchableHighlight onPress={() => this.props.navigation.navigate('RegisterScreen')} style={{ margin: 10 }}>
+                  <TouchableHighlight
+                    onPress={() => this.props.navigation.navigate('RegisterScreen')}
+                    style={{ padding: 20 }}
+                  >
                     <Text style={{ textAlign: 'center' }}>Belum Daftar?</Text>
                   </TouchableHighlight>
                 </View>
