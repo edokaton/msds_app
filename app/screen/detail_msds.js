@@ -34,6 +34,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FaIcon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import styles from '../style/detail_msds_style.js';
+import RNFS from 'react-native-fs';
 
 export default class DetailMsds extends Component {
   constructor(props){
@@ -121,9 +122,41 @@ export default class DetailMsds extends Component {
       });
   }
 
+  saveMsds(){
+    // write the file
+    var path = RNFS.ExternalStorageDirectoryPath + '/Download/' + this.state.zat + '.docx';
+
+    RNFS.writeFile(path,
+        this.state.zat + "\n\n" +
+        this.state.konten.konten_1 + "\n\n" +
+        this.state.konten.konten_2 + "\n\n" +
+        this.state.konten.konten_3 + "\n\n" +
+        this.state.konten.konten_4 + "\n\n" +
+        this.state.konten.konten_5 + "\n\n" +
+        this.state.konten.konten_6 + "\n\n" +
+        this.state.konten.konten_7 + "\n\n" +
+        this.state.konten.konten_8 + "\n\n" +
+        this.state.konten.konten_9 + "\n\n" +
+        this.state.konten.konten_10 + "\n\n" +
+        this.state.konten.konten_11 + "\n\n" +
+        this.state.konten.konten_12 + "\n\n" +
+        this.state.konten.konten_13 + "\n\n" +
+        this.state.konten.konten_14 + "\n\n" +
+        this.state.konten.konten_15 + "\n\n" +
+        this.state.konten.konten_16 + "\n\n" , 'utf8')
+    .then((success) => {
+        alert('file word berhasil disimpan ke folder : ' + path);
+        console.log('FILE WRITTEN!');
+    })
+    .catch((err) => {
+        alert('File gagal disimpan!');
+        console.log(err.message);
+    });
+  }
+
   render() {
     const { goBack } = this.props.navigation;
-    const { id, nama, content} = this.props.navigation.state.params;
+    const { id, nama} = this.props.navigation.state.params;
 
     if (this.state.isLoading) {
       return (
@@ -208,7 +241,7 @@ export default class DetailMsds extends Component {
                </View>
             </KeyboardAvoidingView>
         </Modal>
-    ]
+    ];
 
     return (
       <Container>
@@ -229,7 +262,7 @@ export default class DetailMsds extends Component {
           {/* <Text>halaman detail</Text> */}
           <ScrollView>
             <View style={styles.button_wrapper}>
-              <Button
+              {/*<Button
                 transparent
                 style={
                   {
@@ -244,7 +277,7 @@ export default class DetailMsds extends Component {
                 <Text style={{color:'#fff', textAlign: 'center', width: '100%', fontSize: 20}}>
                     <MaterialCommunityIcons name="share-variant" size={25} /> Share MSDS
                 </Text>
-              </Button>
+              </Button>*/}
 
               <Button
                 transparent
@@ -257,9 +290,10 @@ export default class DetailMsds extends Component {
                     width: '100%'
                   }
                 }
+                onPress={ this.saveMsds.bind(this) }
               >
                 <Text style={{color:'#fff', textAlign: 'center', width: '100%', fontSize: 20}}>
-                  <Icon name="save" size={25} /> Simpan MSDS
+                  <Icon name="save" size={25} /> Simpan MSDS ke file Word
                 </Text>
               </Button>
 

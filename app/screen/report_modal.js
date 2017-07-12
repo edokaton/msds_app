@@ -6,7 +6,28 @@ import {
   View,
   KeyboardAvoidingView
 } from 'react-native';
+/*import {
+  Container,
+  Header,
+  Title,
+  Content,
+  Button,
+  Left,
+  Right,
+  Body,
+  Item,
+  Label,
+  InputGroup,
+  Input,
+  Grid,
+  Col,
+  H1,
+  H3
+} from 'native-base';*/
 import styles from '../style/detail_msds_style.js';
+import axios from 'axios';
+import { StackNavigator, NavigationActions } from 'react-navigation';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class ReportModal extends Component {
 
@@ -14,7 +35,13 @@ export default class ReportModal extends Component {
     super(props);
 
     this.state = {
-      text: 'Tulis report mengenai zat',
+      isLoading: true,
+      konten : [],
+      modalVisible: false,
+      marginTops: '15%',
+      feedback: '',
+      success_response: '',
+      id_msds : this.props.navigation.state.params.id,
       zat : this.props.navigation.state.params.nama
     }
   }
@@ -23,26 +50,62 @@ export default class ReportModal extends Component {
     this.setState({modalVisible: visible});
   }
 
+  onFocus() {
+    this.setState({
+        marginTops: '50%'
+    })
+  }
+
+  onBlur() {
+    this.setState({
+      marginTops: '15%'
+    })
+  }
+
+  submitFeedback(){
+    this.setModalVisible(!this.state.modalVisible);
+    axios({
+        method: 'post',
+        url: 'http://edokaton.tk/api/user/feedback/1/' + this.state.id_msds + '/' + this.state.feedback,
+        headers: {
+          'Accept'        : 'application/json',
+          'Authorization' : 'Bearer qDcJtmiSugMC6lplhWJT8a0t8Q3PteWUXKBaMe5iuTtlBHIrHL8cq7Rr4Tiz7httGO5dspblNAqSR7NW1dCVqwcriyKGxerzRR39'
+        }
+      })
+      .then((response) => {
+          this.setState({
+              success_response: response.data.success_feed
+          });
+          alert(this.state.success_response);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
+      });
+  }
+
   render() {
     return (
-        <KeyboardAvoidingView
-          behavior="position"
-          style={styles.modalContainer}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            this.setModalVisible(!this.state.modalVisible)
+          }}
           key={1}
-        >
-          <Modal
-            animationType={"slide"}
-            transparent={true}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {
-              this.setModalVisible(!this.state.modalVisible)
-            }}
-            style={styles.mainModal}
-            position={"bottom"}
-            entry={"bottom"}
           >
-              <View style={styles.modalShadow}>
-               <View style={styles.reportModalWrapper}>
+            <KeyboardAvoidingView behavior="position" style={styles.modalShadow}>
+
+               <View style={[styles.reportModalWrapper, { marginTop: this.state.marginTops }]}>
                   <View style={styles.modalCloseBtnWrapper}>
                     <View>
                       <TouchableHighlight
@@ -58,25 +121,32 @@ export default class ReportModal extends Component {
 
                   <View style={{ flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
                     <View>
-                      <H3>Kirim Report Kesalahan Data</H3>
+                      <H3>Kirim Feedback</H3>
                     </View>
                   </View>
 
                   <View style={{ marginTop: 50 }}>
-                    <Item regular style={{ marginBottom: 10}}>
+                    {/*<Item regular style={{ marginBottom: 10}}>
                       <Input
-                        placeholder='Subjek report/laporan'
+                        placeholder='Subjek Feedback'
+                        onBlur={() => this.onBlur()}
+                        onEndEditing={() => this.onBlur()}
+                        onFocus={() => this.onFocus()}
+                        value={this.state.feedback}
                         returnKeyType='next'
                       />
-                    </Item>
+                    </Item>*/}
 
                     <TextInput
                       multiline = {true}
+                      editable = {true}
                       numberOfLines = {10}
-                      style={{height: 200, borderColor: '#ccc', borderWidth: 1, marginBottom: 20}}
-                      onChangeText={(text) => this.setState({text})}
-                      returnKeyType='go'
-                      placeholder='kamvret'
+                      style={{minHeight: 200, marginBottom: 20}}
+                      onChangeText={(feedback) => this.setState({feedback})}
+                      onBlur={() => this.onBlur()}
+                      onEndEditing={() => this.onBlur()}
+                      onFocus={() => this.onFocus()}
+                      placeholder='Tuliskan feedback Anda'
                     />
 
                     <Button
@@ -90,17 +160,14 @@ export default class ReportModal extends Component {
                           width: '28%'
                         }
                       }
-                      onPress={() => {
-                        this.setModalVisible(!this.state.modalVisible)
-                      }}
+                      onPress={this.submitFeedback.bind(this)}
                     >
                       <Text style={{color:'#fff', textAlign: 'center', width: '100%'}}>Kirim</Text>
                     </Button>
                   </View>
                </View>
-              </View>
-          </Modal>
-        </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
+        </Modal>
     );
   }
 }
