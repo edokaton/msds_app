@@ -28,6 +28,7 @@ import {
 } from 'native-base';
 import styles from '../style/msds_style.js';
 import { NavigationActions } from 'react-navigation';
+// import * as firebase from "firebase";
 
 export default class Login extends Component {
   render() {

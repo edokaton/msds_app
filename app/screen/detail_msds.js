@@ -8,7 +8,8 @@ import {
   ScrollView,
   TouchableHighlight,
   ActivityIndicator,
-  Modal
+  Modal,
+  KeyboardAvoidingView
 } from 'react-native';
 import {
   Container,
@@ -25,7 +26,8 @@ import {
   Input,
   Grid,
   Col,
-  H1
+  H1,
+  H3
 } from 'native-base';
 import Icon from 'react-native-vector-icons/Entypo';
 import FaIcon from 'react-native-vector-icons/FontAwesome';
@@ -40,7 +42,9 @@ export default class DetailMsds extends Component {
       isLoading: true,
       konten : [],
       modalVisible: false,
-      text: 'Tulis report mengenai zat',
+      marginTops: '15%',
+      feedback: '',
+      success_response: '',
       zat : this.props.navigation.state.params.nama
     }
   }
@@ -73,11 +77,51 @@ export default class DetailMsds extends Component {
     this.setState({modalVisible: visible});
   }
 
+  onFocus() {
+    this.setState({
+        marginTops: '50%'
+    })
+  }
+
+  onBlur() {
+    this.setState({
+      marginTops: '15%'
+    })
+  }
+
+  submitFeedback(){
+    this.setModalVisible(!this.state.modalVisible);
+    axios({
+        method: 'post',
+        url: 'http://edokaton.tk/api/user/feedback/1/' + this.state.feedback,
+        headers: {
+          'Accept'        : 'application/json',
+          'Authorization' : 'Bearer qDcJtmiSugMC6lplhWJT8a0t8Q3PteWUXKBaMe5iuTtlBHIrHL8cq7Rr4Tiz7httGO5dspblNAqSR7NW1dCVqwcriyKGxerzRR39'
+        }
+      })
+      .then((response) => {
+          this.setState({
+              success_response: response.data.success_feed
+          });
+          alert(this.state.success_response);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
+      });
+  }
+
   render() {
-    /*{ console.log(this.state.konten); }*/
     const { goBack } = this.props.navigation;
     const { id, nama, content} = this.props.navigation.state.params;
-    console.log(this.state.konten);
 
     if (this.state.isLoading) {
       return (
@@ -89,64 +133,78 @@ export default class DetailMsds extends Component {
 
     var reportModal = [
         <Modal
-          animationType={"slide"}
-          transparent={false}
+          animationType="fade"
+          transparent={true}
           visible={this.state.modalVisible}
-          style={styles.reportModalWrapper}
           onRequestClose={() => {
-            alert("Modal has been closed")
+            this.setModalVisible(!this.state.modalVisible)
           }}
           key={1}
           >
-           <View style={{marginLeft: 20, marginRight: 20, marginTop: 50}}>
-              <View style={{ flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
-                <View style={{ marginRight: 50}}>
-                  <Text>Kirim Report Kesalahan Data</Text>
-                </View>
+            <KeyboardAvoidingView behavior="position" style={styles.modalShadow}>
 
-                <View>
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.setModalVisible(!this.state.modalVisible)
-                    }}
-                    style={styles.modalCloseBtn}
-                  >
-                    <FaIcon name='close' size={30} />
-                  </TouchableHighlight>
-                </View>                
-              </View>
-              <View style={{ marginTop: 50 }}>
-                <Item regular style={{ marginBottom: 10}}>
-                  <Input placeholder='Subjek report/laporan' />
-                </Item>
+               <View style={[styles.reportModalWrapper, { marginTop: this.state.marginTops }]}>
+                  <View style={styles.modalCloseBtnWrapper}>
+                    <View>
+                      <TouchableHighlight
+                        onPress={() => {
+                          this.setModalVisible(!this.state.modalVisible)
+                        }}
+                        style={styles.modalCloseBtn}
+                      >
+                        <FaIcon name='close' size={25} />
+                      </TouchableHighlight>
+                    </View>
+                  </View>
 
-                <TextInput
-                  multiline = {true}
-                  numberOfLines = {10}
-                  style={{height: 200, borderColor: '#ccc', borderWidth: 1, marginBottom: 20}}
-                  onChangeText={(text) => this.setState({text})}
-                  value={this.state.text}
-                />
+                  <View style={{ flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+                    <View>
+                      <H3>Kirim Feedback</H3>
+                    </View>
+                  </View>
 
-                <Button
-                  transparent
-                  style={
-                    {
-                      backgroundColor:'#009688',
-                      borderRadius: 5,
-                      marginLeft: 5,
-                      marginRight: 5,
-                      width: '28%'
-                    }
-                  }
-                  onPress={() => {
+                  <View style={{ marginTop: 50 }}>
+                    {/*<Item regular style={{ marginBottom: 10}}>
+                      <Input
+                        placeholder='Subjek Feedback'
+                        onBlur={() => this.onBlur()}
+                        onEndEditing={() => this.onBlur()}
+                        onFocus={() => this.onFocus()}
+                        value={this.state.feedback}
+                        returnKeyType='next'
+                      />
+                    </Item>*/}
 
-                  }}
-                >
-                  <Text style={{color:'#fff', textAlign: 'center', width: '100%'}}>Kirim</Text>
-                </Button>
-              </View>
-           </View>
+                    <TextInput
+                      multiline = {true}
+                      numberOfLines = {10}
+                      style={{height: 200, borderColor: '#ccc', borderWidth: 1, marginBottom: 20}}
+                      onChangeText={(feedback) => this.setState({feedback})}
+                      onBlur={() => this.onBlur()}
+                      onEndEditing={() => this.onBlur()}
+                      onFocus={() => this.onFocus()}
+                      returnKeyType='go'
+                      placeholder='Tuliskan feedback Anda'
+                    />
+
+                    <Button
+                      transparent
+                      style={
+                        {
+                          backgroundColor:'#009688',
+                          borderRadius: 5,
+                          marginLeft: 5,
+                          marginRight: 5,
+                          width: '28%'
+                        }
+                      }
+                      onPress={this.submitFeedback.bind(this)}
+                    >
+                      <Text style={{color:'#fff', textAlign: 'center', width: '100%'}}>Kirim</Text>
+                    </Button>
+                  </View>
+               </View>
+            </KeyboardAvoidingView>
         </Modal>
     ]
 
