@@ -30,6 +30,7 @@ import {
   H3
 } from 'native-base';
 import Icon from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FaIcon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import styles from '../style/detail_msds_style.js';
@@ -45,6 +46,7 @@ export default class DetailMsds extends Component {
       marginTops: '15%',
       feedback: '',
       success_response: '',
+      id_msds : this.props.navigation.state.params.id,
       zat : this.props.navigation.state.params.nama
     }
   }
@@ -93,7 +95,7 @@ export default class DetailMsds extends Component {
     this.setModalVisible(!this.state.modalVisible);
     axios({
         method: 'post',
-        url: 'http://edokaton.tk/api/user/feedback/1/' + this.state.feedback,
+        url: 'http://edokaton.tk/api/user/feedback/1/' + this.state.id_msds + '/' + this.state.feedback,
         headers: {
           'Accept'        : 'application/json',
           'Authorization' : 'Bearer qDcJtmiSugMC6lplhWJT8a0t8Q3PteWUXKBaMe5iuTtlBHIrHL8cq7Rr4Tiz7httGO5dspblNAqSR7NW1dCVqwcriyKGxerzRR39'
@@ -177,13 +179,13 @@ export default class DetailMsds extends Component {
 
                     <TextInput
                       multiline = {true}
+                      editable = {true}
                       numberOfLines = {10}
-                      style={{height: 200, borderColor: '#ccc', borderWidth: 1, marginBottom: 20}}
+                      style={{minHeight: 200, marginBottom: 20}}
                       onChangeText={(feedback) => this.setState({feedback})}
                       onBlur={() => this.onBlur()}
                       onEndEditing={() => this.onBlur()}
                       onFocus={() => this.onFocus()}
-                      returnKeyType='go'
                       placeholder='Tuliskan feedback Anda'
                     />
 
@@ -233,13 +235,32 @@ export default class DetailMsds extends Component {
                   {
                     backgroundColor:'#009688',
                     borderRadius: 5,
-                    marginLeft: 5,
-                    marginRight: 5,
-                    width: '28%'
+                    padding: 5,
+                    marginBottom: 10,
+                    width: '100%'
                   }
                 }
               >
-                <Text style={{color:'#fff', textAlign: 'center', width: '100%'}}>Share</Text>
+                <Text style={{color:'#fff', textAlign: 'center', width: '100%', fontSize: 20}}>
+                    <MaterialCommunityIcons name="share-variant" size={25} /> Share MSDS
+                </Text>
+              </Button>
+
+              <Button
+                transparent
+                style={
+                  {
+                    backgroundColor:'#009688',
+                    borderRadius: 5,
+                    padding: 5,
+                    marginBottom: 10,
+                    width: '100%'
+                  }
+                }
+              >
+                <Text style={{color:'#fff', textAlign: 'center', width: '100%', fontSize: 20}}>
+                  <Icon name="save" size={25} /> Simpan MSDS
+                </Text>
               </Button>
 
                 <Button
@@ -248,32 +269,19 @@ export default class DetailMsds extends Component {
                     {
                       backgroundColor:'#009688',
                       borderRadius: 5,
-                      marginLeft: 5,
-                      marginRight: 5,
-                      width: '28%'
+                      padding: 5,
+                      marginBottom: 10,
+                      width: '100%'
                     }
                   }
                   onPress={() => {
                     this.setModalVisible(true)
                   }}
                 >
-                  <Text style={{color:'#fff', textAlign: 'center', width: '100%'}}>Report</Text>
+                  <Text style={{color:'#fff', textAlign: 'center', width: '100%', fontSize: 20}}>
+                    <Icon name="pencil" size={25} /> Kirim Feedback
+                  </Text>
                 </Button>
-
-              <Button
-                transparent
-                style={
-                  {
-                    backgroundColor:'#009688',
-                    borderRadius: 5,
-                    marginLeft: 5,
-                    marginRight: 5,
-                    width: '28%'
-                  }
-                }
-              >
-                <Text style={{color:'#fff', textAlign: 'center', width: '100%'}}>Simpan</Text>
-              </Button>
             </View>
 
             <View style={styles.msds_title}>

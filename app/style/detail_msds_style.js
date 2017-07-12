@@ -11,10 +11,15 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginBottom: 0,
     // backgroundColor: '#fff',
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
+    // flex: 1,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    // justifyContent: 'center'
+  },
+  detailActionBtn:{      
+      borderRadius: 5,
+      margin: 5,
+      width: '28%'
   },
   msds_title:{
     width: '100%',

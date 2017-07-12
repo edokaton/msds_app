@@ -28,9 +28,11 @@ import {
   List,
   ListItem
 } from 'native-base';
-import styles from '../style/msds_style.js';
+import styles from '../../style/msds_style.js';
 // import MsdsList from './app/daftar_msds.js';
 import { StackNavigator, NavigationActions } from 'react-navigation';
+import Database from "../firebase/database";
+import DismissKeyboard from "dismissKeyboard";
 
 
 class MSDS extends Component {
@@ -39,12 +41,66 @@ class MSDS extends Component {
 
     this.state = {
       text : '',
-    }    
+      uid: "",
+      mobile: "",
+      mobileForm: ""
+    }
+
+    this.logout = this.logout.bind(this);
+    this.saveMobile = this.saveMobile.bind(this);
   }
-  
-  // changeSearch(event) {
-  //   this.setState({search: event.target.value});
-  // }
+
+  async logout() {
+
+    try {
+
+      await firebase.auth().signOut();
+
+      this.props.navigator.push({
+        name: "Login"
+      })
+
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
+  async componentDidMount() {
+
+    try {
+
+            // Get User Credentials
+            let user = await firebase.auth().currentUser;
+            console.log(user);
+
+            // Listen for Mobile Changes
+            Database.listenUserMobile(user.uid, (mobileNumber) => {
+              this.setState({
+                mobile: mobileNumber,
+                mobileForm: mobileNumber
+              });
+            });
+
+            this.setState({
+              uid: user.uid
+            });
+
+          } catch (error) {
+            console.log(error);
+          }
+
+        }
+
+        saveMobile() {
+
+        // Set Mobile
+        if (this.state.uid && this.state.mobileForm) {
+          Database.setUserMobile(this.state.uid, this.state.mobileForm);
+          DismissKeyboard();
+        }
+
+      }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -75,13 +131,13 @@ class MSDS extends Component {
         <Text style={{marginTop: 50, marginBottom: 50, fontSize: 60, fontWeight: 'bold', textAlign: 'center', color: '#fff'}}>MSDS</Text>
 
         <View style={{backgroundColor: '#fff', width: '100%', height: '100%'}}>
-          <List>            
-            {/*<ListItem
+          <List>
+            <ListItem
               onPress={() => this.props.navigation.dispatch(resetToLogin)}
             >
-              <Text>Login</Text>
+              <Text>Logout</Text>
             </ListItem>
-            <ListItem
+            {/*<ListItem
               onPress={() => this.props.navigation.dispatch(resetToRegister)}
             >
               <Text>Register</Text>
